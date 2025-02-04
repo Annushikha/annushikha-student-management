@@ -1,0 +1,85 @@
+<h2 mat-dialog-title>
+    <mat-icon matSuffix>account_circle</mat-icon> <span style="margin: 10px;">New Entry Student</span>
+  </h2>  
+  <mat-divider></mat-divider>
+
+<div mat-dialog-content class="dialog-container">
+    
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline">
+            <mat-label>First Name*</mat-label>
+            <input matInput formControlName="firstName"  type="text">
+            <mat-icon matSuffix>school</mat-icon>
+            <mat-error *ngIf="studentForm.get('firstName')?.invalid">First name is required (min 3 chars)</mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Last Name*</mat-label>
+            <input matInput formControlName="lastName">
+            <mat-icon matSuffix>face</mat-icon>
+            <mat-error *ngIf="studentForm.get('lastName')?.invalid">Last Name is required (min 3 chars)</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field appearance="outline">
+            <mat-label>Email*</mat-label>
+            <input matInput type="email" formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+            <mat-error *ngIf="studentForm.get('email')?.invalid">Valid email is required</mat-error>
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile*</mat-label>
+            <input matInput type="tel" formControlName="mobile">
+            <mat-icon matSuffix>phone</mat-icon>
+            <mat-error *ngIf="studentForm.get('mobile')?.hasError('required') &&
+                (studentForm.get('mobile')?.dirty || studentForm.get('mobile')?.touched)">Mobile number is required</mat-error>
+            <mat-error *ngIf="studentForm.get('mobile')?.hasError('pattern')  && studentForm.get('mobile')?.dirty">
+              Mobile Number is invalid.
+            </mat-error>
+          </mat-form-field>
+    
+         
+    
+        <div class="form-row">
+            <div class="full-width">
+                <mat-label>Gender*</mat-label>
+                <mat-radio-group formControlName="gender" name="gender">
+                    <mat-radio-button id="male" value="male" style="padding-right: 16px;">Male</mat-radio-button>
+                    <mat-radio-button id="female" value="female">Female</mat-radio-button>
+                  </mat-radio-group>
+      
+              </div>
+         
+              <mat-form-field appearance="outline">
+                <mat-label>Select Department*</mat-label>
+                <mat-select formControlName="department">
+                    <mat-option *ngFor="let dept of departments" [value]="dept">{{ dept }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="studentForm.get('department')?.invalid">Department No is required</mat-error>
+              </mat-form-field>
+            
+        </div>
+    
+        <mat-form-field appearance="outline">
+            <mat-label>Subjects </mat-label>
+            <input matInput formControlName="subjects" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of subjects" [value]="option">
+                    {{option}}
+                  </mat-option>
+              </mat-autocomplete>
+          </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <textarea matInput formControlName="address"></textarea>
+        </mat-form-field>
+    
+        <mat-checkbox formControlName="agree">I agree to the terms and conditions</mat-checkbox>
+    
+        <div class="form-buttons">
+          <button mat-raised-button color="primary" type="submit" [disabled]="studentForm.invalid">Submit</button>
+          <button mat-raised-button color="warn" type="reset" (click)="close()">Cancel</button>
+        </div>
+      </form>
+</div>
+  

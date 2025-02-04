@@ -1,0 +1,90 @@
+<mat-toolbar color="primary" class="toolbar">
+    <span class="title">Student Management</span>
+  </mat-toolbar>
+  
+  <div class="container">
+    <section>
+        <div class="button-row">
+            
+                <mat-form-field>
+                    <mat-label>Search Students</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Search by name">
+                  </mat-form-field>
+            
+                <button mat-flat-button color="warn" style="margin: 10px; float: right;" (click)="addStudent()">
+                    <mat-icon>person_add</mat-icon><span style="margin: 10px;">Add</span>
+                  </button>
+            
+        </div>
+      </section>
+    
+  
+    <table mat-table [dataSource]="dataSource.data.length > 0 && dataSource.filteredData.length > 0 ? dataSource : emptyData" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="_id">
+        <th mat-header-cell *matHeaderCellDef> Roll No </th>
+        <td mat-cell *matCellDef="let student"> {{ student._id }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef>Full Name </th>
+        <td mat-cell *matCellDef="let student"> {{ student.firstName }}  {{ student.lastName }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let student"> {{ student.email }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="gender">
+        <th mat-header-cell *matHeaderCellDef> Gender </th>
+        <td mat-cell *matCellDef="let student"> 
+            <mat-chip-list aria-label="gender selection">
+                <mat-chip [color]="student.gender === 'male' ? 'primary' : 'accent'" selected>
+                    {{ student.gender }}
+                  </mat-chip>
+        
+            </mat-chip-list>
+         
+        </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="mobile">
+        <th mat-header-cell *matHeaderCellDef> Mobile </th>
+        <td mat-cell *matCellDef="let student"> {{ student.mobile }} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef> Department </th>
+        <td mat-cell *matCellDef="let student"> {{ student.department }} </td>
+      </ng-container>
+  
+  
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let student"> {{ student.address }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let student; let i = index">
+          <button mat-icon-button color="primary" (click)="editStudent(student, i)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteStudent(i, student)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="empty-row">
+        <mat-cell *matCellDef="let student">No Data</mat-cell>
+      </ng-container>
+    
+  
+      <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <!-- Data Row -->
+    <tr mat-row  *matRowDef="let row; columns: dataSource.data.length > 0 && dataSource.filteredData.length > 0? displayedColumns : ['empty-row'];"></tr>
+    </table>
+  </div>
